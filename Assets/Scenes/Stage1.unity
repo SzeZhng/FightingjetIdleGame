@@ -130,6 +130,7 @@ GameObject:
   - component: {fileID: 362030069}
   - component: {fileID: 362030068}
   - component: {fileID: 362030070}
+  - component: {fileID: 362030071}
   m_Layer: 0
   m_Name: stagedummy_0
   m_TagString: Untagged
@@ -222,12 +223,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d85020632d44d749b63ba6035454fbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
-  StagePosition: {x: 0, y: 0}
-  TargetPosition: {x: 0, y: 0}
-  ActualLocation: {x: 0, y: 0}
-  CurrentStage: {fileID: 0}
-  DupeStage: {fileID: 0}
-  StageBGName: 
+  Stage: {fileID: 11400000, guid: 97446308acda08940a65647a72106352, type: 2}
+--- !u!114 &362030071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 362030067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b02bdb1e5abc7149ae817f96ef6d97c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StageScrollingManager
+  StageScript: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
