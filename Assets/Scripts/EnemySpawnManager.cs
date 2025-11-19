@@ -2,18 +2,11 @@ using UnityEngine;
 using System;
 
 public class EnemySpawnManager : MonoBehaviour {
-    private GameObject EnemyType;
-    public static string EnemyName;
     private float[] EnemyRoute;
     private int[] EnemyPattern;
     private void Awake()
     {
         return;
-    }
-    private void Update()
-    {
-        // Set EnemyType to selected EnemyName
-        EnemyType = GameObject.Find(EnemyName);
     }
 
     private float[] LineFormula(float[] StartPoint, float[] EndPoint)
