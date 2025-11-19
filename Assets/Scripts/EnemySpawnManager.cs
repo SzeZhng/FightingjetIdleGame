@@ -9,20 +9,27 @@ public class EnemySpawnManager : MonoBehaviour {
         return;
     }
 
-    private float[] LineFormula(float[] StartPoint, float[] EndPoint)
+    public float[] LineFormula(float[] StartPoint, float[] EndPoint)
     {
         float StartPointX = StartPoint[0];
         float StartPointY = StartPoint[1];
         float EndPointX = EndPoint[0];
         float EndPointY = EndPoint[1];
-        float Gradient = (StartPointY - EndPointY) / (StartPointX - EndPointX);
-        float HShift = StartPointY - (Gradient * StartPointX);
-        // {Gradient, HorizontalShift}
-        float[] Constant = new float[] {Gradient, HShift};
-        return Constant;
+        if (StartPointX - EndPointX != 0)
+        {
+            float Gradient = (StartPointY - EndPointY) / (StartPointX - EndPointX);
+            float HShift = StartPointY - (Gradient * StartPointX);
+            // {Gradient, HorizontalShift}
+            float[] Constant = new float[] {Gradient, HShift};
+            return Constant;
+        }
+        else
+        {
+            return null;
+        }
     }
     
-    private float[] CircleFormula(float[] StartPoint, float[] EndPoint, float[] MidPoint)
+    public float[] CircleFormula(float[] StartPoint, float[] EndPoint, float[] MidPoint)
     {
         float StartPointX = StartPoint[0];
         float StartPointY = StartPoint[1];
