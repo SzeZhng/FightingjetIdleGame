@@ -13,3 +13,14 @@ MonoBehaviour:
   m_Name: EnemyData
   m_EditorClassIdentifier: Assembly-CSharp::EnemyData
   EnemyName: enemydummy
+  MovementType: Circle
+  Speed: 1
+  StartPoint:
+  - 0
+  - 0
+  MidPoint:
+  - 50
+  - 50
+  EndPoint:
+  - 100
+  - 100
