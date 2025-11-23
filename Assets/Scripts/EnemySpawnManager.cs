@@ -47,11 +47,11 @@ public class EnemySpawnManager : MonoBehaviour {
         else
         {
             Radius = (float)Math.Sqrt(Math.Pow(StartPointX - MidPointX, 2) + Math.Pow(StartPointY - MidPointY, 2));
-
+            
             // Find StartRadian
             // Calculate distance between starting point and 0 degree 
             float LineBetween = (float)Math.Sqrt(Math.Pow(StartPointX - MidPointX, 2) + Math.Pow(StartPointY - MidPointY + Radius, 2));
-            StartRadian = (float)Math.Acos( ((2 * Math.Pow(Radius, 2)) - Math.Pow(LineBetween, 2)) / 2 * Radius);
+            StartRadian = (float)Math.Acos(((2 * Math.Pow(Radius, 2)) - Math.Pow(LineBetween, 2)) / (2 * Math.Pow(Radius, 2)));
             // Correct quardrant
             if (StartPointX > MidPointX)
             {
@@ -60,7 +60,7 @@ public class EnemySpawnManager : MonoBehaviour {
 
             // Find EndRadian
             float LineBetweenEnd = (float)Math.Sqrt(Math.Pow(EndPointX - MidPointX, 2) + Math.Pow(EndPointY - MidPointY + Radius, 2));
-            EndRadian = (float)Math.Acos( ((2 * Math.Pow(Radius, 2)) - Math.Pow(LineBetweenEnd, 2)) / 2 * Radius);
+            EndRadian = (float)Math.Acos(((2 * Math.Pow(Radius, 2)) - Math.Pow(LineBetweenEnd, 2)) / (2 * Math.Pow(Radius, 2)));
             // Correct quardrant
             if (EndPointX > MidPointX)
             {
@@ -71,8 +71,9 @@ public class EnemySpawnManager : MonoBehaviour {
             {
                 EndRadian += 2*Mathf.PI;
             }
-        }
+            
         float[] Constant = new float[] {Radius, StartRadian, EndRadian};
         return Constant;
+        }
     }
 }

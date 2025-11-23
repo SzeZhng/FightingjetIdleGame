@@ -104,7 +104,6 @@ public class EnemySpawnController : MonoBehaviour {
                 {
                     float x = midpoint[0] + Mathf.Cos(angle) * constant[0];
                     float y = midpoint[1] + Mathf.Sin(angle) * constant[0];
-                    Debug.Log(x);
                     Waypoints.Add(new float[] {x, y});
                 }
                 if (speed < 0)
