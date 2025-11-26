@@ -9,12 +9,12 @@ public class EnemySpawnManager : MonoBehaviour {
         return;
     }
 
-    public float[] LineFormula(float[] StartPoint, float[] EndPoint)
+    public float[] LineFormula(Vector2 StartPoint, Vector2 EndPoint)
     {
-        float StartPointX = StartPoint[0];
-        float StartPointY = StartPoint[1];
-        float EndPointX = EndPoint[0];
-        float EndPointY = EndPoint[1];
+        float StartPointX = StartPoint.x;
+        float StartPointY = StartPoint.y;
+        float EndPointX = EndPoint.x;
+        float EndPointY = EndPoint.y;
         if (StartPointX - EndPointX != 0)
         {
             float Gradient = (StartPointY - EndPointY) / (StartPointX - EndPointX);
@@ -29,14 +29,14 @@ public class EnemySpawnManager : MonoBehaviour {
         }
     }
     
-    public float[] CircleFormula(float[] StartPoint, float[] EndPoint, float[] MidPoint)
+    public float[] CircleFormula(Vector2 StartPoint, Vector2 EndPoint, Vector2 MidPoint)
     {
-        float StartPointX = StartPoint[0];
-        float StartPointY = StartPoint[1];
-        float EndPointX = EndPoint[0];
-        float EndPointY = EndPoint[1];
-        float MidPointX = MidPoint[0];
-        float MidPointY = MidPoint[1];
+        float StartPointX = StartPoint.x;
+        float StartPointY = StartPoint.y;
+        float EndPointX = EndPoint.x;
+        float EndPointY = EndPoint.y;
+        float MidPointX = MidPoint.x;
+        float MidPointY = MidPoint.y;
         float Radius;
         float StartRadian = 0;
         float EndRadian = 0;

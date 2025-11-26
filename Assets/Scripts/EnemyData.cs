@@ -6,7 +6,7 @@ public class EnemyData : ScriptableObject
     public string EnemyName;
     public string MovementType;
     public float Speed;
-    public float[] StartPoint;
-    public float[] MidPoint;
-    public float[] EndPoint;
+    public Vector2 StartPoint;
+    public Vector2 MidPoint;
+    public Vector2 EndPoint;
 }

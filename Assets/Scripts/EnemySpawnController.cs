@@ -2,20 +2,49 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class EnemySpawnController : MonoBehaviour {
     private GameObject EnemyType;
     public EnemySpawnManager Manager;
     public EnemyData Data; 
+    private GameObject DupeEnemy;
+    public static EnemySpawnController Instance { get; private set; } 
 
-    //testing purpose
-    private void Awake() 
-    {   
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            // Destroy this object if another instance already exists
+            Destroy(gameObject);
+        }
+        else
+        {
+            // Set the static reference to this instance
+            Instance = this;
+            // Often used to keep managers alive across scene loads
+            DontDestroyOnLoad(gameObject); 
+        }
+    }
+
+    public async Task SpawnEnemy(int enemyamount, float distance)
+    {
         // Set EnemyType to selected EnemyName
         EnemyType = GameObject.Find(Data.EnemyName);
         Manager = GetComponent<EnemySpawnManager>();
-        List<float[]> Waypoints = PathFind(Data.MovementType, Data.StartPoint, Data.EndPoint, Data.MidPoint, 0.05f);
-        StartCoroutine(WaitPath(EnemyType, Waypoints, Data.Speed));
+        if (DupeEnemy != null) 
+        {
+            List<float[]> Waypoints = PathFind(Data.MovementType, Data.StartPoint, Data.EndPoint, Data.MidPoint, 0.05f);
+            StartCoroutine(WaitPath(DupeEnemy, Waypoints, Data.Speed));
+        }
+        else 
+        {
+            for (int i = 0; i < enemyamount; i++)
+            {
+                DupeEnemy = Instantiate(EnemyType, new Vector3(0, 0, 100), Quaternion.identity);
+                await Task.Delay((int)(Time.deltaTime * distance * 1000f)); 
+            }
+        }
     }
 
     IEnumerator WaitPath(GameObject enemy, List<float[]> waypoints, float speed)
@@ -41,7 +70,7 @@ public class EnemySpawnController : MonoBehaviour {
     }
 
 
-    public List<float[]> PathFind(string type, float[] startpoint, float[] endpoint, float[] midpoint, float speed)
+    public List<float[]> PathFind(string type, Vector2 startpoint, Vector2 endpoint, Vector2 midpoint, float speed)
     {
         if (speed != 0)
         {
@@ -53,9 +82,9 @@ public class EnemySpawnController : MonoBehaviour {
                 if (constant != null)
                 {
                     // from left to right
-                    if (startpoint[0] < endpoint[0])
+                    if (startpoint.x < endpoint.x)
                     {
-                        for (float x = startpoint[0]; x < endpoint[0]; x += Math.Abs(speed))
+                        for (float x = startpoint.x; x < endpoint.x; x += Math.Abs(speed))
                         {
                             float y = constant[0] * x + constant[1];
                             Waypoints.Add(new float[] {x, y});
@@ -63,28 +92,28 @@ public class EnemySpawnController : MonoBehaviour {
                     }
                     
                     // from right to left
-                    else if (startpoint[0] > endpoint[0])
+                    else if (startpoint.x > endpoint.x)
                     {
-                        for (float x = startpoint[0]; x > endpoint[0]; x -= Math.Abs(speed))
+                        for (float x = startpoint.x; x > endpoint.x; x -= Math.Abs(speed))
                         {
                             float y = constant[0] * x + constant[1];
                             Waypoints.Add(new float[] {x, y});
                         }
                     }
-                } else if (startpoint[1] != endpoint[1]){
+                } else if (startpoint.y != endpoint.y){
                     // from down to up
-                    float x = startpoint[0];
-                    if (startpoint[1] < endpoint[1])
+                    float x = startpoint.x;
+                    if (startpoint.y < endpoint.y)
                     {
-                        for (float y = startpoint[1]; y < endpoint[1]; y += Math.Abs(speed))
+                        for (float y = startpoint.y; y < endpoint.y; y += Math.Abs(speed))
                         {
                             Waypoints.Add(new float[] {x, y});
                         }
                     }
                     // from down to up
-                    else if (startpoint[1] > endpoint[1])
+                    else if (startpoint.y > endpoint.y)
                     {
-                        for (float y = startpoint[1]; y > endpoint[1]; y -= Math.Abs(speed))
+                        for (float y = startpoint.y; y > endpoint.y; y -= Math.Abs(speed))
                         {
                             Waypoints.Add(new float[] {x, y});
                         }
@@ -98,8 +127,8 @@ public class EnemySpawnController : MonoBehaviour {
                 float[] constant = Manager.CircleFormula(startpoint, endpoint, midpoint);
                 for (float angle = constant[1]; angle < constant[2]; angle += Math.Abs(speed))
                 {
-                    float x = midpoint[0] + (Mathf.Cos(angle) * constant[0]);
-                    float y = midpoint[1] + (Mathf.Sin(angle) * constant[0]);
+                    float x = midpoint.x + (Mathf.Cos(angle) * constant[0]);
+                    float y = midpoint.y + (Mathf.Sin(angle) * constant[0]);
                     Debug.Log(x);
                     Waypoints.Add(new float[] {x, y});
                 }
