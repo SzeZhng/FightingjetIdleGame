@@ -41,8 +41,6 @@ public class EnemySpawnManager : MonoBehaviour {
             return; 
         }
         Controller = GetComponent<EnemySpawnController>();
-        
-        EnemyType = Test_SpecificEnemyPrefab;
         for (int i = 0; i < enemyamount; i++)
         {
             Controller.EnemySpawn(EnemyType, i, distance);
