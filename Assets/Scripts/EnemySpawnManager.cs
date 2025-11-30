@@ -9,7 +9,6 @@ public class EnemySpawnManager : MonoBehaviour {
     public EnemySpawnController Controller;
     public List<GameObject> enemyPrefabs;
     private Dictionary<string, GameObject> _prefabMap = new Dictionary<string, GameObject>();
-    public GameObject Test_SpecificEnemyPrefab;
     public EnemyData Data; 
     void Awake()
     {
@@ -43,7 +42,7 @@ public class EnemySpawnManager : MonoBehaviour {
         Controller = GetComponent<EnemySpawnController>();
         for (int i = 0; i < enemyamount; i++)
         {
-            Controller.EnemySpawn(EnemyType, i, distance);
+            Controller.EnemySpawn(EnemyType, i);
             await Task.Delay((int)(distance * 1000f)); 
         }
     }

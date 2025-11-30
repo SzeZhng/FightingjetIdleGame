@@ -3,42 +3,55 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UnityEngine.UI;
 
 public class EnemySpawnController : MonoBehaviour {
     
     private float[] EnemyRoute;
     private int[] EnemyPattern;
     public static List<GameObject> DupeEnemyList = new List<GameObject>();
-    
+    public static List<Slider> DupeEnemyHealthList = new List<Slider>();
+    public GameObject HealthBar;
+    public Transform HealthCanvas;
     public EnemyData Data; 
 
-    public void EnemySpawn(GameObject EnemyType, int count, float distance) {
+    public void EnemySpawn(GameObject EnemyType, int count) {
         GameObject DupeEnemy = Instantiate(EnemyType, new Vector3(0, 0, 100), Quaternion.identity);
+        GameObject DupeHealthCanvas = Instantiate(HealthBar, HealthCanvas);
+        Slider DupeHealth = DupeHealthCanvas.GetComponent<Slider>();
         DupeEnemy.name = $"{EnemyType.name}{count + 1}";
+        DupeHealth.name = $"{EnemyType.name}{count + 1}HPBar";
         DupeEnemyList.Add(DupeEnemy);
+        DupeEnemyHealthList.Add(DupeHealth);
         
         if (DupeEnemy != null)
             {
                 List<Vector2> Waypoints = PathFind(Data.MovementType, Data.StartPoint, Data.EndPoint, Data.MidPoint, 0.05f);
-                StartCoroutine(WaitPath(DupeEnemy, Waypoints, Data.Speed));
+                StartCoroutine(WaitPath(DupeEnemy, DupeHealth, Waypoints, Data.Speed));
             }
     }
 
-    IEnumerator WaitPath(GameObject enemy, List<Vector2> waypoints, float speed)
+    IEnumerator WaitPath(GameObject enemy, Slider Health, List<Vector2> waypoints, float speed)
     {
         int i = 0;
+        Renderer renderer = enemy.GetComponent<Renderer>();
+        float enemyheight = renderer.bounds.size.y;
         foreach (Vector2 coordinate in waypoints)
         {
             Vector3 target = new Vector3(coordinate.x, coordinate.y, -20f);
+                // Set health y position to current location of enemy + height of enemy/2 + 5f and x position to current location of enemy + 1.5f
+            Vector3 HealthTarget = new Vector3(coordinate.x + 1.5f, coordinate.y + (enemyheight / 2) + 5f, 0f);
             if (i == 0)
             {
                 enemy.transform.position = target;
+                Health.transform.position = HealthTarget;
             }
             else 
             {
                 while (Vector3.Distance(enemy.transform.position, target) > 0.1f)
                 {
                     enemy.transform.position = Vector3.MoveTowards(enemy.transform.position, target, speed * Time.deltaTime);
+                    Health.transform.position = Vector3.MoveTowards(Health.transform.position, HealthTarget, speed * Time.deltaTime);
                     yield return null;
                 }
             }

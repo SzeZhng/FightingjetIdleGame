@@ -9,4 +9,5 @@ public class EnemyData : ScriptableObject
     public Vector2 StartPoint;
     public Vector2 MidPoint;
     public Vector2 EndPoint;
+    public float maxHealth;
 }
